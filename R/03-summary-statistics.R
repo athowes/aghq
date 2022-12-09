@@ -833,12 +833,11 @@ sample_marginal.aghq <- function(quad,M,transformation = quad$transformation,int
 #' @rdname sample_marginal
 #' @export
 sample_marginal.marginallaplace <- function(quad,M,transformation = quad$transformation,interpolation = 'auto',...) {
-  numcores = getOption('mc.cores',1L)
-  K <- as.numeric(quad$normalized_posterior$grid$level)[1]
-  d <- dim(quad$modesandhessians$H[[1]])[1]
-  simlist <- quad$modesandhessians
+  numcores <- getOption('mc.cores',1L)
   # Avoid use of parallel computing on Windows
   if (.Platform$OS.type == 'windows') numcores <- 1
+  d <- dim(quad$modesandhessians$H[[1]])[1]
+  simlist <- quad$modesandhessians
   if (numcores > 1) {
     # mclapply does not preserve the order of its arguments
     # simlist$L <- parallel::mclapply(simlist$H,function(h) chol(Matrix::forceSymmetric(h),perm = FALSE),mc.cores = numcores)
