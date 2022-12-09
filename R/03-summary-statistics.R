@@ -856,7 +856,6 @@ sample_marginal.marginallaplace <- function(quad,M,transformation = quad$transfo
   } else {
     k <- apply(stats::rmultinom(M,1,simlist$lambda),2,function(x) which(x == 1))
   }
-  tt <- table(k) # Values are number of samples to draw for each k
 
   # Big Gaussian mixture matrix
   Z <- lapply(split(matrix(stats::rnorm(M*d),nrow = M),k),matrix,nrow = d)
@@ -871,7 +870,8 @@ sample_marginal.marginallaplace <- function(quad,M,transformation = quad$transfo
 
   # Order them properly
   ord <- numeric(length(k))
-  cumtab <- cumsum(c(0,table(k)))
+  tt <- table(k) # Values are number of samples to draw for each k
+  cumtab <- cumsum(c(0,tt))
   cumtab <- cumtab[-length(cumtab)]
   cnt <- numeric(length(unique(k)))
   names(cnt) <- sort(unique(k))
