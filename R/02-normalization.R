@@ -74,7 +74,7 @@
 #'
 #' @export
 #'
-normalize_logpost <- function(optresults,k,whichfirst = 1,basegrid = NULL,ndConstruction = "product",...) {
+normalize_logpost <- function(optresults,k,whichfirst = 1,basegrid = NULL,ndConstruction = "product",dec.type = 2,...) {
   if (as.integer(k) != k) stop(paste0("Please provide an integer k, the number of quadrature points. You provided ",k,"which does not satisfy as.integer(k) == k"))
   # Create the grid
   S <- length(optresults$mode) # Dimension
@@ -94,7 +94,7 @@ normalize_logpost <- function(optresults,k,whichfirst = 1,basegrid = NULL,ndCons
   idxorder <- c(whichfirst,(1:S)[-whichfirst])
   m <- optresults$mode[idxorder]
   H <- optresults$hessian[idxorder,idxorder]
-  mvQuad::rescale(thegrid,m = m,C = Matrix::forceSymmetric(solve(H)),dec.type=2) # forceSymmetric for numerical asymmetries
+  mvQuad::rescale(thegrid,m = m,C = Matrix::forceSymmetric(solve(H)),dec.type=dec.type) # forceSymmetric for numerical asymmetries
 
   nodesandweights <- cbind(mvQuad::getNodes(thegrid),mvQuad::getWeights(thegrid))
   colnames(nodesandweights) <- c(paste0("theta",idxorder),"weights")

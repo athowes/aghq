@@ -106,20 +106,20 @@ aghq <- function(ff,k,startingvalue,transformation = default_transformation(),op
   # validate_moment(ff)
 
   # If they provided a basegrid, get the k from that. If they also provided a k, compare them and issue a warning
-  if (!is.null(basegrid)) {
-    if (missing(k)) {
-      k <- max(as.numeric(basegrid$level))
-    } else {
-      k2 <- max(as.numeric(basegrid$level))
-      if (k != k2) {
-        warning(paste0("You provided a basegrid and a specified number of quadrature points k. You do not need to specify k if you supply a basegrid. Further, they don't match: your grid has k = ",k2,", but you specified k = ",k,". Proceeding with k = ",k2,", from the supplied grid.\n"))
-        k <- k2
-      }
-    }
-  }
+  # if (!is.null(basegrid)) {
+  #   if (missing(k)) {
+  #     k <- max(as.numeric(basegrid$level))
+  #   } else {
+  #     k2 <- max(as.numeric(basegrid$level))
+  #     if (k != k2) {
+  #       warning(paste0("You provided a basegrid and a specified number of quadrature points k. You do not need to specify k if you supply a basegrid. Further, they don't match: your grid has k = ",k2,", but you specified k = ",k,". Proceeding with k = ",k2,", from the supplied grid.\n"))
+  #       k <- k2
+  #     }
+  #   }
+  # }
 
   # Optimization
-  if (is.null(optresults)) utils::capture.output(optresults <- optimize_theta(ff,startingvalue,control,...))
+  if (is.null(optresults)) utils::capture.output(optresults <- optimize_theta(ff,startingvalue,control))
 
   # Normalization
   normalized_posterior <- normalize_logpost(optresults,k,basegrid = basegrid,ndConstruction = control$ndConstruction,...)
