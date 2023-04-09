@@ -327,7 +327,7 @@ get_nodesandweights.marginallaplace <- function(obj,...) get_nodesandweights(obj
 #'
 #' @export
 #'
-get_numquadpoints <- function(obj,...) as.numeric(obj$normalized_posterior$grid$level)[1]
+get_numquadpoints <- function(obj,...) as.numeric(min(obj$normalized_posterior$grid$level))
 
 #' Obtain the parameter dimension from an aghq object
 #'
